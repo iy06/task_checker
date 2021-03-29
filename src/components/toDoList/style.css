@@ -32,7 +32,7 @@
 }
 
 .task_field::-webkit-scrollbar {
-  display:none;
+  display: none;
 }
 
 .section > .add_circle_outline_icon {

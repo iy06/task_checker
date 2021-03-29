@@ -1,7 +1,8 @@
 import React from 'react';
-import './style.css';
+import { Task } from '../../components/task';
 import MenuIcon from "@material-ui/icons/Menu";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
+import './style.css';
 
 
 export const ToDoList = () => {
@@ -10,9 +11,16 @@ export const ToDoList = () => {
       <div className='section'>
         <MenuIcon className='section_ele' />
         <span className='section_ele'>ToDo</span>
-        <AddCircleOutlineIcon className='add_circle_outline_icon' fontSize='small' />
+        <AddCircleOutlineIcon
+          className='add_circle_outline_icon'
+          fontSize='small'
+        />
       </div>
+
       <div className='task_field'>
+        <Task />
+        <Task />
+        <Task />
       </div>
     </div>
   );
