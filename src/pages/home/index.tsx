@@ -21,7 +21,11 @@ export const Home = () => {
       <div className='genre'>
         <Select />
         <AddCircleOutlineIcon onClick={ handleOpen } className='add_circle_outline_icon' fontSize='default' />
-        <FormModal handleClose={ handleClose } isOpen={ isOpen } body='genreBody' />
+        <FormModal
+          handleClose={ handleClose }
+          isOpen={ isOpen }
+          body='genreBody'
+        />
       </div>
       <div className='contents'>
         <ToDoList />
