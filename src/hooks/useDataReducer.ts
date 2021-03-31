@@ -14,13 +14,30 @@ export type Data = {
 export const useDataReducer = (): any => {
   const initialData = {
     tasksData:  [],
-    genresData: []
+    genresData: [],
   }
 
   const reducer = (state: Data, action: DataAction) => {
-    return state
+    switch (action.type) {
+      case 'setTasks':
+        state.tasksData = [{
+          id: 1,
+          name: 'タスクA',
+          explanation: 'テストのタスクです',
+          deadlineDate: '',
+          status: '',
+          genreId: 1
+        }]
+        return state;
+      case 'setGenres':
+        state.genresData = [{
+          id: 1,
+          name: 'ジャンルA',
+        }]
+        return state;
+    }
   }
 
-  const [data, dispatch] = useReducer(reducer, initialData)
+  const [data, dispatch] = useReducer(reducer, initialData);
   return [data, dispatch]
 };
