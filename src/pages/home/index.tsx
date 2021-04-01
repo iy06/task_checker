@@ -19,14 +19,13 @@ export const Home = () => {
   const handleClose = () => {
     setIsOpen(false);
   };
-
+  // 初回ロードに発火する
   useEffect (() => {
     const fetchData = async () => {
-      await taskRequest('fetchTasks');
-      dispatch({ type: 'setTasks' });
-
-      await genreRequest('fetchGenres');
-      dispatch({ type: 'setGenres' });
+      const tasks = await taskRequest('fetchTasks');
+      const genres = await genreRequest('fetchGenres');
+      dispatch({ type: 'tasksUpdate', payload: { task: tasks }});
+      dispatch({ type: 'genresUpdate', payload: { genre: genres} });
     };
     fetchData();
   }, [])

@@ -38,7 +38,6 @@ const renderBody = (body: string) => {
 };
 
 export const FormModal = (props: Props) => {
-  console.log(props);
   Modal.setAppElement('#root');
 
   return (

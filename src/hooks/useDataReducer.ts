@@ -2,39 +2,46 @@ import { useReducer } from 'react';
 import { TaskType } from '../interfaces/TaskType';
 import { GenreType } from '../interfaces/GenreType';
 
+// actionの型
 export type DataAction = {
-  type: 'setTasks' | 'setGenres'
+  type: 'tasksUpdate' | 'genresUpdate'
+  payload: { task?: TaskType[]; genre?: GenreType[]; };
 };
 
+// dataの型？
 export type Data = {
   tasksData:  TaskType[];
   genresData: GenreType[];
 };
 
-export const useDataReducer = (): any => {
+// リデューサー
+export const useDataReducer = (): [Data, ({ type, payload }: DataAction) => void] => {
+
   const initialData = {
-    tasksData:  [],
-    genresData: [],
+    tasksData: [
+      {
+        id: 0,
+        name: '',
+        explanation: '',
+        deadlineDate: '',
+        status: '',
+        genreId: 0,
+      },
+    ],
+    genresData: [
+      {
+        id: 0,
+        name: '',
+      }],
   }
 
   const reducer = (state: Data, action: DataAction) => {
+    // console.log(state, action);
     switch (action.type) {
-      case 'setTasks':
-        state.tasksData = [{
-          id: 1,
-          name: 'タスクA',
-          explanation: 'テストのタスクです',
-          deadlineDate: '',
-          status: '',
-          genreId: 1
-        }]
-        return state;
-      case 'setGenres':
-        state.genresData = [{
-          id: 1,
-          name: 'ジャンルA',
-        }]
-        return state;
+      case 'tasksUpdate':
+        return { ...state, tasksData: action.payload.task || state.tasksData };
+      case 'genresUpdate':
+        return { ...state, genresData: action.payload.task || state.genresData };
     }
   }
 
