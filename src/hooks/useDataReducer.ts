@@ -32,7 +32,8 @@ export const useDataReducer = (): [Data, ({ type, payload }: DataAction) => void
       {
         id: 0,
         name: '',
-      }],
+      }
+    ],
   }
 
   const reducer = (state: Data, action: DataAction) => {
@@ -44,7 +45,7 @@ export const useDataReducer = (): [Data, ({ type, payload }: DataAction) => void
         return { ...state, genresData: action.payload.task || state.genresData };
     }
   }
-
+  //  home/index.tsのdispatchと連携
   const [data, dispatch] = useReducer(reducer, initialData);
   return [data, dispatch]
 };

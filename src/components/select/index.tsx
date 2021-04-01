@@ -1,13 +1,28 @@
 import React from 'react';
+import { GenreType } from '../../interfaces/GenreType'
+import { genreRequest } from '../../requests/genreRequest';
 import './style.css';
 
+interface Props {
+  genres?: GenreType[];
+}
 
-export const Select = () => {
+const renderOption = (props: Props) => {
+  return (
+    props.genres && props.genres.map((genre: GenreType) => {
+      <option key={ genre.id } value={ genre.id }>
+        { genre.name }
+      </option>
+    })
+  );
+
+}
+
+export const Select = (props: Props) => {
   return (
     <select className='select'>
-      <option value={ 0 }>0</option>
-      <option value={ 1 }>1</option>
-      <option value={ 2 }>2</option>
+      { !props.genres && <option value={ 0 }></option> }
+      { renderOption(props) }
     </select>
   );
 };

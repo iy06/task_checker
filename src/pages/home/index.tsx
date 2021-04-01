@@ -5,13 +5,25 @@ import { ToDoList } from '../../components/toDoList';
 import { FormModal } from '../../components/modal';
 import { taskRequest } from '../../requests/taskRequest';
 import { genreRequest } from '../../requests/genreRequest';
-import { useDataReducer } from '../../hooks/useDataReducer';
+import { Data, DataAction, useDataReducer } from '../../hooks/useDataReducer';
+import { useFilterTasks } from '../../hooks/useFilterTasks';
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import './style.css';
+
+type DataContextType = {
+  data: Data;
+  dispatch: ({ type, payload }: DataAction) => void;
+};
+
+export const DataContext = React.createContext<DataContextType>(
+  {} as DataContextType
+);
 
 export const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [data, dispatch] = useDataReducer();
+  const [selectGenreId, setSelectGenreId] = useState<number>(0);
+  const [filteredTasks, tasksDispatch] = useFilterTasks();
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -34,21 +46,30 @@ export const Home = () => {
     console.log(data);
   }, [data]);
 
+  useEffect(() => {
+    tasksDispatch({
+      type: 'filterTask',
+      payload: { tasks: data.tasksData, genreId: selectGenreId },
+    })
+  }, [data.tasksData]);
+
   return (
-    <div className='main'>
-      <Header />
-      <div className='genre'>
-        <Select />
-        <AddCircleOutlineIcon onClick={ handleOpen } className='add_circle_outline_icon' fontSize='default' />
-        <FormModal
-          handleClose={ handleClose }
-          isOpen={ isOpen }
-          body='genreBody'
-        />
+    <DataContext.Provider value={{ data, dispatch }}>
+      <div className='main'>
+        <Header />
+        <div className='genre'>
+          <Select genres={ data.genresData }/>
+          <AddCircleOutlineIcon onClick={ handleOpen } className='add_circle_outline_icon' fontSize='default' />
+          <FormModal
+            handleClose={ handleClose }
+            isOpen={ isOpen }
+            body='genreBody'
+          />
+        </div>
+        <div className='contents'>
+          <ToDoList tasks={ filteredTasks }/>
+        </div>
       </div>
-      <div className='contents'>
-        <ToDoList />
-      </div>
-    </div>
+    </DataContext.Provider>
   );
 };
