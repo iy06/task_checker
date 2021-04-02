@@ -24,7 +24,7 @@ export const useDataReducer = (): [Data, ({ type, payload }: DataAction) => void
         name: '',
         explanation: '',
         deadlineDate: '',
-        status: '',
+        status: 0,
         genreId: 0,
       },
     ],
@@ -42,7 +42,7 @@ export const useDataReducer = (): [Data, ({ type, payload }: DataAction) => void
       case 'tasksUpdate':
         return { ...state, tasksData: action.payload.task || state.tasksData };
       case 'genresUpdate':
-        return { ...state, genresData: action.payload.task || state.genresData };
+        return { ...state, genresData: action.payload.genre || state.genresData };
     }
   }
   //  home/index.tsのdispatchと連携

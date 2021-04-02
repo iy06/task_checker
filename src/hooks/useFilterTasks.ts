@@ -16,7 +16,7 @@ export const useFilterTasks = (): any => {
       name: '',
       explanation: '',
       deadlineDate: '',
-      status: '',
+      status: 0,
       genreId: 0,
     },
   ];

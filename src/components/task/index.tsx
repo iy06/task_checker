@@ -9,7 +9,7 @@ interface Props {
 
 export const Task = (props: Props) => {
   return (
-    <div className='task'>
+    <div className='task' style={{ backgroundColor: new Date(props.task.deadlineDate) > new Date() ? 'white': 'rgb(250, 192, 194)'}}>
       <span className='task_date'>{ props.task.deadlineDate }</span>
       <div className='task_text_contents'>
         <h3 className='task_title'>{ props.task.name }</h3>

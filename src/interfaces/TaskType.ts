@@ -3,6 +3,6 @@ export interface TaskType {
   name:         string;
   explanation:  string;
   deadlineDate: string;
-  status:       string;
+  status:       number;
   genreId:      number;
 };

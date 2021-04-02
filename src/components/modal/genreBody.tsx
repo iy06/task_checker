@@ -19,8 +19,7 @@ export const GenreBody = () => {
               <CancelIcon />
             </li>
           );
-        })
-         }
+        })}
       </ul>
       <input type="text"/>
       <input type='button' className='input_submit' value='追加'/>
