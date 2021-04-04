@@ -6,17 +6,28 @@ interface Props {
   genres?: GenreType[];
   changeSelect?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
   initialValue?: number;
+  optionElements?: string[];
 }
 
 const renderOption = (props: Props) => {
-  return (
-    props.genres &&
-    props.genres.map((genre: GenreType) => (
-      <option key={ genre.id } value={ genre.id }>
-        { genre.name }
-      </option>
-    ))
-  );
+
+  if (props.genres !== undefined) {
+    return (
+      props.genres.map((genre: GenreType) => (
+        <option key={ genre.id } value={ genre.id }>
+          { genre.name }
+        </option>
+      ))
+    );
+  } else if (props.optionElements !== undefined) {
+    return (
+      props.optionElements.map((option: string, index: number) => (
+        <option key={ index } value={ index }>
+          { option }
+        </option>
+      ))
+    );
+  }
 };
 
 export const Select = (props: Props) => {
