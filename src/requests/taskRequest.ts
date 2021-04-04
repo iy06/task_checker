@@ -1,8 +1,8 @@
 import axiosBase from 'axios';
 import { TaskType } from '../interfaces/TaskType';
 
-type action = 'fetchTasks' | 'createTasks' | 'updateTasks' | 'deleteTasks';
-type parameter = { data: TaskType };
+type action = 'fetchTasks' | 'createTasks' | 'updateTasks' | 'deleteTasks' | 'updateStatus';
+type parameter = { data: TaskType, status?: number };
 
 const api = axiosBase.create ({
     baseURL: 'http://localhost:3001/tasks',
@@ -21,6 +21,9 @@ export const taskRequest: (action: action, parameter?: parameter) => any = async
       case 'deleteTasks':
         const deleteTasks = await api.delete(`/${parameter.data.id}`);
         return deleteTasks.data;
+      case 'updateStatus':
+        const updateStatus = await api.post(`/${parameter.data.id}/status`, { status: parameter.status });
+        return updateStatus.data;
       default:
         return null;
     }
