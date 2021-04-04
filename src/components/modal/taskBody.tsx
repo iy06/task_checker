@@ -8,14 +8,27 @@ import './style.css';
 interface Props {
   handleClose: () => void;
   initialValue?: number;
+  task?: TaskType;
 }
 
 export const TaskBody = (props: Props) => {
   const { data, dispatch } = useContext(DataContext);
-  const [ title, setTitle ] = useState<string>('');
-  const [ explanation, setExplanation ] = useState<string>('');
-  const [ deadlineDate, setDeadlineDate ] = useState<string>('');
-  const [genreId, setGenreId] = useState<number>(0);
+  const [ title, setTitle ] = useState<string>(
+    (props.task && props.task.name) || ''
+    // props.task ? props.task.name : ''
+  );
+  const [ explanation, setExplanation ] = useState<string>(
+    (props.task && props.task.explanation) || ''
+    // props.task ? props.task.explanation : ''
+  );
+  const [ deadlineDate, setDeadlineDate ] = useState<string>(
+    (props.task && props.task.deadlineDate) || ''
+    // props.task ? props.task.deadlineDate : ''
+  );
+  const [genreId, setGenreId] = useState<number>(
+    (props.task && props.task.genreId) || 0
+    // props.task ? props.task.genreId : 0
+  );
 
   const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     // const taskTitleValue:string = event.target.value;
@@ -35,20 +48,46 @@ export const TaskBody = (props: Props) => {
   }
 
   const handleSubmit = async () => {
-    const newData = {
-      id: 0,
+    const requestData = {
+      id: (props.task ? props.task.id : 0),
       name: title,
       genreId: genreId,
       explanation: explanation,
       deadlineDate: deadlineDate,
-      status: 0,
+      status: (props.task ? props.task.status : 0),
     };
 
+    if (props.task !== undefined) {
+      try {
+        const tasks: TaskType[] = await taskRequest('updateTasks', {
+          data: requestData,
+        });
+        dispatch({ type: 'tasksUpdate', payload: { task: tasks } });
+      } catch (error) {
+        console.log(error.message);
+      }
+    } else {
+      try {
+        const tasks: TaskType[] = await taskRequest('createTasks', {
+          data: requestData,
+        });
+        dispatch({ type: 'tasksUpdate', payload: { task: tasks }});
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+  }
+
+  const handleDeleteBtn = async () => {
     try {
-      const tasks: TaskType[] = await taskRequest('createTasks', {
-        data: newData,
-      });
-      dispatch({ type: 'tasksUpdate', payload: { task: tasks }});
+      if (props.task) {
+        const tasks: TaskType[] = await taskRequest('deleteTasks', {
+          data: props.task,
+        });
+        dispatch({ type: 'tasksUpdate', payload: { task: tasks }})
+      }
+      props.handleClose();
+
     } catch (error) {
       console.log(error.message);
     }
@@ -70,6 +109,11 @@ export const TaskBody = (props: Props) => {
         <input type='date' onChange={ handleChangeDeadLine } value={ deadlineDate } />
       </div>
       <input className='input_submit' type='button' value='送信' onClick={ handleSubmit } />
+      {/* { if (props.task !== undefined) {
+          <button className="button delete_button" type="button" onClick={ handleDeleteBtn }>このタスクを削除する</button>
+        }
+      } */}
+      {props.task !== undefined && <button className="button delete_button" type="button" onClick={ handleDeleteBtn }>このタスクを削除する</button>}
     </form>
   );
 };
