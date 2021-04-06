@@ -5,7 +5,7 @@ type action = 'fetchTasks' | 'createTasks' | 'updateTasks' | 'deleteTasks' | 'up
 type parameter = { data: TaskType, status?: number };
 
 const api = axiosBase.create ({
-    baseURL: 'http://localhost:3001/tasks',
+    baseURL: `http://${ process.env.REACT_APP_API_URL }/tasks`,
     responseType: 'json',
 });
 

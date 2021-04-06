@@ -1,11 +1,12 @@
 import axiosBase from 'axios';
 import { GenreType } from '../interfaces/GenreType';
+require('dotenv').config();
 
 type action = 'fetchGenres' | 'createGenres' | 'deleteGenres';
 type parameter = { data: GenreType };
 
 const api = axiosBase.create ({
-  baseURL: 'http://localhost:3001/genres',
+  baseURL: `http://${ process.env.REACT_APP_API_URL }/genres`,
   responseType: 'json',
 });
 

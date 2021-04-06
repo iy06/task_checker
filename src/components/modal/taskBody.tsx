@@ -63,6 +63,7 @@ export const TaskBody = (props: Props) => {
           data: requestData,
         });
         dispatch({ type: 'tasksUpdate', payload: { task: tasks } });
+        props.handleClose();
       } catch (error) {
         console.log(error.message);
       }
@@ -72,6 +73,7 @@ export const TaskBody = (props: Props) => {
           data: requestData,
         });
         dispatch({ type: 'tasksUpdate', payload: { task: tasks }});
+        props.handleClose();
       } catch (error) {
         console.log(error.message);
       }
